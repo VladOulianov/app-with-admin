@@ -44,12 +44,16 @@
 // }
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+//const GoogleStrategy = require('passport-google-oauth20').Strategy
+//const mongoose = require('mongoose')
 
 // Load User model
 const User = require('../models/userSchema');
 
 module.exports = function(passport) {
+  
   passport.use(
+    // Local AUTH
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       // Match user
       User.findOne({
@@ -70,7 +74,10 @@ module.exports = function(passport) {
         });
       });
     })
+    
   );
+    
+    
 
   passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -82,3 +89,6 @@ module.exports = function(passport) {
     });
   });
 };
+
+
+

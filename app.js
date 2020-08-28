@@ -7,21 +7,27 @@ const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require('passport');
+const connectDB = require("./config/db");
 
 const app = express();
-
-//Passport Config
-require('./config/passport')(passport);
-
-
-//const mongoose = require('mongoose')
-const connectDB = require("./config/db");
 
 // Load config
 dotenv.config({ path: "./config/config.env" });
 
+
+//Passport Config
+require('./config/passport')(passport);
+require('./config/googlePassport')(passport);
+
 // connectDB
 connectDB();
+//const mongoose = require('mongoose')
+
+
+
+
+
+
 // mongoose
 //   .connect(
 //     db,
@@ -94,6 +100,7 @@ app.use(express.static("public"));
 // Routes
 app.use("/", require("./controllers/home.js"));
 app.use("/user", require("./controllers/users.js"));
+app.use("/auth", require("./controllers/authgoogle"));
 //app.get("/", homePage);
 //app.get("/register", registerPage);
 //app.get("/login", loginPage);
